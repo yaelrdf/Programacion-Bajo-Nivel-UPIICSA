@@ -1,35 +1,32 @@
-; Program: Counter
-; Microcontroller: PIC16F84A
+;Programa sin utilizar librerias llenado constante
 
-; Configuration bits
-;__CONFIG _CP_OFF & _WDT_OFF & _PWRTE_OFF & _XT_OSC
+;Variables
+conta EQU 0x20
+status EQU 0x03
 
-; Define counter variable
-#define conta 0x20
-
-; Reset vector
+;Inicializado
     ORG 0x00
-    goto START
+    goto INICIO
 
-; Main program
-START
-    ; Clear the counter
+;Programa principal
+INICIO
+    ;Limpiar conta por si a caso
     CLRF conta
 
 LOOP
-    ; Increment the counter by 1
+    ;Incrementar conta en 1
     INCF conta, F
 
-    ; Check if the counter has reached the desired value (0x5F)
+    ;Checar si conta es igual a 5F
     MOVLW 0x5F
     XORWF conta, W
-    BTFSS 0x03, 2  ; Check Zero flag in STATUS register (0x03)
-    goto LOOP      ; If not equal, continue loop
+    BTFSS status, 2  ; Checar si la comparacion dio como valor 0
+    goto LOOP      ; Si no es o seguir iterando
 
-    ; If counter reached desired value, clear it
+    ;Si conta llega a 5F limpiar conta
     CLRF conta
 
-    ; Return to the beginning of the loop
+    ;Seguir iterando infinitamente
     goto LOOP
 
     END
